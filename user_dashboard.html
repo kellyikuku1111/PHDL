@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}User Dashboard - PHDL Office System{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h2 class="mb-4">Welcome, {{ user[1] }}</h2>
+        <div class="card mb-4">
+            <div class="row g-0">
+                <div class="col-md-4 text-center p-3">
+                    {% if user[7] %}
+                        <img src="{{ url_for('static', filename=user[7]) }}" class="img-fluid rounded-circle" style="max-width:180px;">
+                    {% else %}
+                        <div class="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center" style="width:180px; height:180px;">No Image</div>
+                    {% endif %}
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <p><strong>Name:</strong> {{ user[1] }}</p>
+                        <p><strong>Phone:</strong> {{ user[2] }}</p>
+                        <p><strong>Department:</strong> {{ user[3] }}</p>
+                        <p><strong>Username:</strong> {{ user[4] }}</p>
+                        <p><strong>Date of Birth:</strong> {{ user[8] or '' }}</p>
+                        <p><strong>User Type:</strong> {{ user[9] or '' }}</p>
+                        <p><strong>Number of Users in {{ user[3] }} Department:</strong> {{ dept_count }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

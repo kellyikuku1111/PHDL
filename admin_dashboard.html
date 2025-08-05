@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard - PHDL Office System{% endblock %}
+{% block content %}
+<h2 class="mb-4">Admin Dashboard</h2>
+
+<!-- Department counts -->
+<div class="mb-3">
+    <strong>Total Users:</strong> {{ total_users }}<br>
+    <strong>Users per Department:</strong>
+    <ul>
+        {% for dept, count in dept_counts.items() %}
+            <li>{{ dept }}: {{ count }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- Search form -->
+<form method="post" action="{{ url_for('admin_search') }}" class="mb-4 d-flex">
+    <input type="text" name="search_name" class="form-control me-2" placeholder="Search by name" value="{{ search_query or '' }}">
+    <button type="submit" class="btn btn-primary">Search</button>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary ms-2">Show All</a>
+</form>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-primary">
+        <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Department</th>
+            <th>Username</th>
+            <th>Date of Birth</th>
+            <th>User Type</th>
+            <th>Picture</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for user in users %}
+        <tr>
+            <td>{{ user[1] }}</td>
+            <td>{{ user[2] }}</td>
+            <td>{{ user[3] }}</td>
+            <td>{{ user[4] }}</td>
+            <td>{{ user[5] or '' }}</td>
+            <td>{{ user[6] or '' }}</td>
+            <td>
+                {% if user[7] %}
+                    <img src="{{ url_for('static', filename=user[7]) }}" width="60" height="60" class="rounded-circle">
+                {% else %}
+                    No Image
+                {% endif %}
+            </td>
+            <td>
+                <a href="{{ url_for('delete_user', user_id=user[0]) }}" class="btn btn-danger btn-sm" onclick="return confirm('Delete this user?')">Delete</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
